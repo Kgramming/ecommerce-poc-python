@@ -142,7 +142,7 @@ async function fetchProducts() {
   loading.value = true
   error.value = ''
   try {
-    const res = await api.products({ limit: 100 })
+    const res = await api.products({ limit: 100, include_inactive: true })
     products.value = res.products
   } catch (e) {
     error.value = e.message
@@ -160,10 +160,12 @@ function openCreate() {
 
 function openEdit(p) {
   editing.value = p
+  // DB stores lowercase ("peripherals"); the dropdown shows labels ("Peripherals")
+  const catLabel = categories.find(c => c.toLowerCase() === (p.category || '').toLowerCase())
   form.value = {
     title: p.title,
     price: p.price,
-    category: p.category,
+    category: catLabel || 'Peripherals',
     tagsText: (p.tags || []).join(', '),
     attributesText: JSON.stringify(p.attributes || {}, null, 2),
     variantsText: JSON.stringify(p.variants || [], null, 2),
@@ -216,7 +218,7 @@ async function save() {
   const payload = {
     title: form.value.title.trim(),
     price: Number(form.value.price),
-    category: form.value.category,
+    category: form.value.category.toLowerCase(), // DB convention is lowercase
     tags: form.value.tagsText.split(',').map(t => t.trim()).filter(Boolean),
     attributes,
     variants,

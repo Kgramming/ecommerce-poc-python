@@ -43,7 +43,7 @@
 
         <div class="filter-group">
           <div class="filter-label">Order date</div>
-          <div class="field-row">
+          <div class="field-col">
             <input v-model="dateFrom" type="date" class="input" @change="search" />
             <input v-model="dateTo" type="date" class="input" @change="search" />
           </div>
@@ -267,6 +267,9 @@ onMounted(search)
 .check { display: flex; align-items: center; gap: 10px; padding: 5px 0; cursor: pointer; font-size: 14px; }
 .check input { accent-color: var(--ink); width: 15px; height: 15px; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.field-row .input { min-width: 0; }
+/* native date inputs have a wide intrinsic size — stack them in the sidebar */
+.field-col { display: flex; flex-direction: column; gap: 8px; }
 
 .results { min-width: 0; }
 .kpis {

@@ -34,8 +34,9 @@ Base URL: `http://localhost:8000` · All bodies/ responses: JSON · Errors: `{"d
 ## Endpoints
 
 ### `GET /api/products` → 200 (MongoDB only)
-Query params: `?category=audio` `?q=wireless` (optional filters).
-Returns only `active: true` products.
+Query params: `?category=audio` (case-insensitive) `?q=wireless` (optional filters).
+Returns only `active: true` products, unless `?include_inactive=true` is passed
+(used by the catalog admin).
 ```json
 { "products": [ { "<product>" }, ... ], "total": 24 }
 ```

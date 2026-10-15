@@ -10,8 +10,9 @@ router = APIRouter()
 
 @router.get("/products", response_model=ProductList)
 async def list_products(category: str | None = None, q: str | None = None,
-                        mongo=Depends(get_mongo)):
-    items = await repo.list_products(mongo, category=category, q=q)
+                        include_inactive: bool = False, mongo=Depends(get_mongo)):
+    items = await repo.list_products(mongo, category=category, q=q,
+                                     include_inactive=include_inactive)
     return {"products": items, "total": len(items)}
 
 

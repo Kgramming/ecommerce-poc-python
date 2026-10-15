@@ -43,7 +43,11 @@ async def ensure_index(es, index: str):
 
 
 async def index_order(es, index: str, order: dict):
-    await es.index(index=index, id=str(order["id"]), document=build_es_doc(order))
+    # wait_for refresh: the doc must be searchable the moment the API
+    # returns, otherwise "view in dashboard" right after placing an order
+    # (or the acceptance poll) can miss it for up to one refresh interval.
+    await es.index(index=index, id=str(order["id"]),
+                   document=build_es_doc(order), refresh="wait_for")
 
 
 async def index_orders_bulk(es, index: str, orders: list[dict]):

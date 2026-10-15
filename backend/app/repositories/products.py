@@ -1,4 +1,6 @@
 """MongoDB product-catalog repository. Products are read from MongoDB ONLY."""
+import re
+
 from bson import ObjectId
 
 from app.core.dates import utcnow
@@ -27,10 +29,14 @@ def _oid(pid: str):
         return None
 
 
-async def list_products(db, category: str | None = None, q: str | None = None):
-    filt: dict = {"active": True}
+async def list_products(db, category: str | None = None, q: str | None = None,
+                      include_inactive: bool = False):
+    filt: dict = {}
+    if not include_inactive:
+        filt["active"] = True
     if category:
-        filt["category"] = category
+        # case-insensitive exact match: the UI sends "Audio", the DB stores "audio"
+        filt["category"] = {"$regex": f"^{re.escape(category)}$", "$options": "i"}
     if q:
         rx = {"$regex": q, "$options": "i"}
         filt["$or"] = [{"title": rx}, {"tags": rx}]
