@@ -2,7 +2,15 @@
   <header class="site-head">
     <div class="wrap head-inner">
       <RouterLink to="/" class="brand">
-        <span class="brand-mark">Y3</span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="20" height="20">
+            <g fill="none" stroke="var(--paper)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 7.5 L23.5 11.75 V20.25 L16 24.5 L8.5 20.25 V11.75 Z"/>
+              <path d="M8.5 11.75 L16 16 L23.5 11.75"/>
+              <path d="M16 16 V24.5"/>
+            </g>
+          </svg>
+        </span>
         <span class="brand-name display">Y3L <em>Supply Co.</em></span>
       </RouterLink>
       <nav class="nav">
@@ -62,12 +70,10 @@ const userLabel = computed(() => 'Signed in as Priya Patel')
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand-mark {
-  width: 34px; height: 32px;
-  background: var(--ink); color: var(--paper);
+  width: 32px; height: 32px;
+  background: var(--ink);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-weight: 700; font-size: 15px;
-  letter-spacing: 0.02em;
 }
 .brand-name { font-size: 18px; }
 .brand-name em { font-style: normal; color: var(--ink-faint); font-weight: 500; }
