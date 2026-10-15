@@ -142,7 +142,8 @@ async function fetchProducts() {
   loading.value = true
   error.value = ''
   try {
-    products.value = await api.products({ limit: 100 })
+    const res = await api.products({ limit: 100 })
+    products.value = res.products
   } catch (e) {
     error.value = e.message
   } finally {

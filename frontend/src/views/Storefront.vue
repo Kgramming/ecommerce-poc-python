@@ -93,7 +93,8 @@ async function fetchProducts() {
     const params = { limit: 100 }
     if (q.value.trim()) params.q = q.value.trim()
     if (category.value) params.category = category.value
-    products.value = await api.products(params)
+    const res = await api.products(params)
+    products.value = res.products
   } catch (e) {
     error.value = e.message
   } finally {
