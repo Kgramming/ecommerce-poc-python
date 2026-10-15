@@ -35,9 +35,20 @@ def run_sql(path: str):
         conn.commit()
 
 
+def truncate_pg():
+    """Wipe seed tables so re-runs are clean (idempotent seed)."""
+    with psycopg.connect(settings.postgres_dsn) as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "TRUNCATE TABLE order_items, orders, users RESTART IDENTITY CASCADE;")
+        conn.commit()
+
+
 def main():
     print("1/6  PostgreSQL schema ...")
     run_sql(os.path.join(SEED_DIR, "schema.sql"))
+    print("     clearing any previous seed data ...")
+    truncate_pg()
 
     print("2/6  users ...")
     run_sql(os.path.join(SEED_DIR, "users.sql"))
