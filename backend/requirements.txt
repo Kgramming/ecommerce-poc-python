@@ -7,5 +7,7 @@ psycopg-pool>=3.1
 motor>=3.5
 # Pinned to 8.x: the v9 client breaks against our Elasticsearch 8.15.0 server
 elasticsearch>=8.13,<9
+# Required by AsyncElasticsearch (async HTTP transport)
+aiohttp>=3.9
 python-dotenv>=1.0
 httpx>=0.27
