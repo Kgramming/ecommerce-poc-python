@@ -10,10 +10,27 @@ from app.models.schemas import SearchRequest
 def build_search_body(req: SearchRequest) -> dict:
     must = []
     if req.query:
-        must.append({"multi_match": {
-            "query": req.query,
-            "fields": ["customer.name^2", "items.title"],
-        }})
+        # customer.name is a top-level field, but items.title lives inside a
+        # NESTED field: a plain multi_match on it silently matches nothing, so
+        # it needs its own nested query wrapper.
+        must.append({
+            "bool": {
+                "should": [
+                    {"multi_match": {"query": req.query,
+                                     "fields": ["customer.name"],
+                                     "boost": 2.0}},
+                    {"nested": {
+                        "path": "items",
+                        "query": {"multi_match": {
+                            "query": req.query,
+                            "fields": ["items.title"],
+                        }},
+                        "score_mode": "avg",
+                    }},
+                ],
+                "minimum_should_match": 1,
+            }
+        })
     filters = []
     if req.statuses:
         filters.append({"terms": {"status": req.statuses}})
