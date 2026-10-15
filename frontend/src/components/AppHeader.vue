@@ -2,8 +2,8 @@
   <header class="site-head">
     <div class="wrap head-inner">
       <RouterLink to="/" class="brand">
-        <span class="brand-mark">M</span>
-        <span class="brand-name display">Meridian <em>Supply</em></span>
+        <span class="brand-mark">Y3</span>
+        <span class="brand-name display">Y3L <em>Supply Co.</em></span>
       </RouterLink>
       <nav class="nav">
         <RouterLink to="/" class="nav-link" active-class="active">Shop</RouterLink>
@@ -62,11 +62,12 @@ const userLabel = computed(() => 'Signed in as Priya Patel')
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand-mark {
-  width: 32px; height: 32px;
+  width: 34px; height: 32px;
   background: var(--ink); color: var(--paper);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-weight: 700; font-size: 18px;
+  font-family: var(--font-display); font-weight: 700; font-size: 15px;
+  letter-spacing: 0.02em;
 }
 .brand-name { font-size: 18px; }
 .brand-name em { font-style: normal; color: var(--ink-faint); font-weight: 500; }
