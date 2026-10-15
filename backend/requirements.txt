@@ -3,6 +3,7 @@ uvicorn[standard]>=0.30
 pydantic>=2.7
 pydantic-settings>=2.3
 psycopg[binary]>=3.1
+psycopg-pool>=3.1
 motor>=3.5
 elasticsearch>=8.13
 python-dotenv>=1.0
