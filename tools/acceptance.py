@@ -174,7 +174,7 @@ class Harness:
         st, body = self.req("GET", f"/api/orders/{oid_}")
         aeq(st, 200, "GET /api/orders/:id status")
         aeq(body["id"], oid_, "order id round-trip")
-        aeq(body["customer"]["name"], "John Doe", "customer name")
+        aeq(body["customer"]["name"], "Aarav Sharma", "customer name")
         st, _ = self.req("GET", "/api/orders/999999")
         aeq(st, 404, "GET /api/orders/:bogus status")
 
@@ -197,9 +197,12 @@ class Harness:
         aeq(st, 200, "search status")
         if body["total"] < 8:
             raise Fail(f"omni 'wireless': total {body['total']}, expected >= 8")
+        st, body = self.req("POST", "/api/search/orders",
+                            {"query": "kabir", "page_size": 100})
+        aeq(st, 200, "customer-name search status")
         names = [o["customer"]["name"] for o in body["orders"]]
-        if "Wendy Wireless" not in names:
-            raise Fail("omni 'wireless' missed customer 'Wendy Wireless'")
+        if "Kabir Malhotra" not in names:
+            raise Fail("omni 'kabir' missed customer 'Kabir Malhotra'")
 
     def t_search_facets(self):
         st, body = self.req("POST", "/api/search/orders",
@@ -210,7 +213,7 @@ class Harness:
         for o in body["orders"]:
             aeq(o["status"], "SHIPPED", "facet status mismatch")
         st, body = self.req("POST", "/api/search/orders",
-                            {"min_total": 200, "page_size": 100})
+                            {"min_total": 10000, "page_size": 100})
         aeq(st, 200, "price facet status")
         if body["total"] < 5:
             raise Fail(f"price facet >=200: total {body['total']}, expected >= 5")
@@ -259,7 +262,7 @@ class Harness:
         st, body = self.req("GET", "/api/products")
         wm = next(p for p in body["products"] if p["sku"] == "WM-001")
         aeq(wm["title"], "Wireless Mouse Pro", "catalog title after rename")
-        money_eq(wm["price"], 59.99, "catalog price after rename")
+        money_eq(wm["price"], 4999, "catalog price after rename")
         st, body = self.req("GET", "/api/orders/1")
         aeq(st, 200, "seeded order detail status")
         titles = [i["title"] for i in body["items"]]

@@ -42,7 +42,7 @@ defineEmits(['open-cart'])
 const { count } = useCart()
 const { theme, toggle: toggleTheme } = useTheme()
 /* Fixed demo user for order placement (matches seed user #2). */
-const userLabel = computed(() => 'Signed in as Jane Smith')
+const userLabel = computed(() => 'Signed in as Priya Patel')
 </script>
 
 <style scoped>

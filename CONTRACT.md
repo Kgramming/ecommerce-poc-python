@@ -57,10 +57,10 @@ Body: partial or full product fields. Must NOT rewrite historical orders.
 // response 201 — title/unit_price are snapshots taken at order time
 {
   "id": 41, "user_id": 1,
-  "customer": { "id": 1, "name": "John Doe", "email": "john.doe@example.com" },
-  "order_date": "2026-10-15T19:00:00Z", "status": "PENDING", "total_amount": 100.32,
+  "customer": { "id": 1, "name": "Aarav Sharma", "email": "aarav.sharma@example.com" },
+  "order_date": "2026-10-15T19:00:00Z", "status": "PENDING", "total_amount": 8398.00,
   "items": [ { "product_id": "64f1a2b3c4d5e6f7a8b9c0d1", "title": "Wireless Mouse",
-               "quantity": 2, "unit_price": 50.16 } ]
+               "quantity": 2, "unit_price": 4199.00 } ]
 }
 ```
 Rules: validate every `product_id` exists and is active (from MongoDB); snapshot title+price;
@@ -85,7 +85,7 @@ Updates Postgres, then updates the ES document so search stays accurate.
   "query": "wireless",
   "statuses": ["PENDING", "SHIPPED"],
   "date_from": "2026-08-01", "date_to": "2026-10-15",
-  "min_total": 30, "max_total": 200,
+  "min_total": 5000, "max_total": 20000,
   "page": 1, "page_size": 20
 }
 // response
@@ -93,18 +93,18 @@ Updates Postgres, then updates the ES document so search stays accurate.
   "total": 12,
   "orders": [
     { "order_id": 5, "order_date": "2026-07-09T19:00:00Z", "status": "PENDING",
-      "total_amount": 99.99,
-      "customer": { "id": 3, "name": "Wendy Wireless", "email": "wendy.wireless@example.com" } }
+      "total_amount": 8398.00,
+      "customer": { "id": 3, "name": "Kabir Malhotra", "email": "kabir.malhotra@example.com" } }
   ],
   "kpis": {
-    "total_revenue": 1234.56,
+    "total_revenue": 123456.00,
     "count_by_status": { "PENDING": 5, "PROCESSING": 4, "SHIPPED": 3 }
   }
 }
 ```
 Rules: `query` is a multi-match over customer name + item titles (partial text must match —
-"Wireless" hits "Wireless Mouse" items AND customer "Wendy Wireless"). All filters AND together.
-KPIs are computed over the filtered set. Never touches Postgres/MongoDB.
+"kabir" hits customer "Kabir Malhotra", "wireless" hits "Wireless Mouse" items). All filters AND together.
+KPIs are computed over the filtered set. Never touches Postgres/MongoDB. All money is in INR (₹).
 
 ## Status codes
 - `200` ok · `201` created · `400` bad request / validation / transaction failure

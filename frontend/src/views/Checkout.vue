@@ -50,10 +50,10 @@
         <section class="card buyer-card">
           <h3>Buyer</h3>
           <div class="buyer">
-            <div class="buyer-avatar">JS</div>
+            <div class="buyer-avatar">PP</div>
             <div>
-              <div class="buyer-name">Jane Smith</div>
-              <div class="faint buyer-sub">jane.smith@example.com · demo account</div>
+              <div class="buyer-name">Priya Patel</div>
+              <div class="faint buyer-sub">priya.patel@example.com · demo account</div>
             </div>
           </div>
           <p class="faint note">
@@ -87,7 +87,7 @@ async function place() {
   error.value = ''
   try {
     const order = await api.placeOrder({
-      user_id: 2, // Jane Smith, demo account
+      user_id: 2, // Priya Patel, demo account
       items: lines.value.map(l => ({ product_id: l.product.id, quantity: l.quantity })),
     })
     placed.value = order

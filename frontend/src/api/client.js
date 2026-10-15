@@ -43,7 +43,7 @@ export const api = {
 }
 
 export function formatMoney(n) {
-  return '$' + Number(n).toFixed(2)
+  return '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
 export function formatDate(iso) {

@@ -73,7 +73,7 @@ def main():
     print("6/6  rename fixture: 'Wireless Mouse' -> 'Wireless Mouse Pro' ...")
     res = col.update_one(
         {"sku": "WM-001"},
-        {"$set": {"title": "Wireless Mouse Pro", "price": 59.99,
+        {"$set": {"title": "Wireless Mouse Pro", "price": 4999,
                   "updated_at": datetime.now(timezone.utc).isoformat()
                   .replace("+00:00", "Z")}})
     print(f"     matched {res.matched_count} product "
