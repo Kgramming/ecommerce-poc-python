@@ -105,6 +105,7 @@ class SearchOrderHit(BaseModel):
     status: str
     total_amount: float
     customer: CustomerOut
+    items: list[OrderItemOut]
 
 
 class SearchKpis(BaseModel):
