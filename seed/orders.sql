@@ -124,3 +124,4 @@ INSERT INTO orders (id, user_id, order_date, status, total_amount, updated_at) V
 INSERT INTO order_items (order_id, product_id, title, quantity, unit_price) VALUES (40, '64f1a2b3c4d5e6f7a8b9c014', 'USB-C Hub 7-in-1', 1, 3799.00);
 INSERT INTO order_items (order_id, product_id, title, quantity, unit_price) VALUES (40, '64f1a2b3c4d5e6f7a8b9c010', 'Bluetooth Wireless Speaker', 1, 4999.00);
 INSERT INTO order_items (order_id, product_id, title, quantity, unit_price) VALUES (40, '64f1a2b3c4d5e6f7a8b9c015', 'HDMI Cable 2m', 1, 899.00);
+SELECT setval('orders_id_seq', (SELECT MAX(id) FROM orders));
