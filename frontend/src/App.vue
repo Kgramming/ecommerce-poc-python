@@ -17,6 +17,9 @@ import { useRouter } from 'vue-router'
 import AppHeader from './components/AppHeader.vue'
 import CartDrawer from './components/CartDrawer.vue'
 import ToastHost from './components/ToastHost.vue'
+import { useTheme } from './composables/useTheme.js'
+
+useTheme().init()
 
 const router = useRouter()
 const cartOpen = ref(false)

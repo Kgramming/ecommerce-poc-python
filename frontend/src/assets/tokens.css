@@ -1,17 +1,18 @@
 /* Meridian Supply Co. — design tokens.
-   One warm paper, one ink, one accent. No gradients, no neon. */
+   Warm minimal theme (Dribbble-inspired): soft paper, white cards,
+   big radii, pill buttons. Dark mode via [data-theme="dark"]. */
 
 :root {
-  --paper: #faf9f6;
-  --paper-2: #f2f0e9;
+  --paper: #f4f3ef;
+  --paper-2: #eceae3;
   --card: #ffffff;
-  --ink: #1c1b17;
-  --ink-soft: #57544b;
-  --ink-faint: #8b8778;
-  --line: #e4e0d3;
-  --line-soft: #edeae0;
+  --ink: #1c1a16;
+  --ink-soft: #5d584d;
+  --ink-faint: #8e887a;
+  --line: #e6e2d6;
+  --line-soft: #efede4;
 
-  --accent: #c2410c;          /* persimmon */
+  --accent: #c2410c;          /* persimmon — reserved for tiny highlights */
   --accent-deep: #9a3412;
   --accent-wash: #fdeee2;
 
@@ -25,18 +26,56 @@
   --danger: #b3261e;
   --danger-wash: #fbeae8;
 
-  --radius: 10px;
-  --radius-sm: 7px;
+  --ring: rgba(28, 26, 22, 0.10);
+
+  --radius: 22px;
+  --radius-sm: 14px;
+  --radius-pill: 999px;
+
+  --img-well: #efede6;       /* backdrop for product photography */
 
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-body: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --shadow-sm: 0 1px 2px rgba(28, 27, 23, 0.06);
-  --shadow-md: 0 8px 24px rgba(28, 27, 23, 0.10);
-  --shadow-lg: 0 24px 64px rgba(28, 27, 23, 0.16);
+  --shadow-sm: 0 1px 2px rgba(28, 26, 22, 0.05);
+  --shadow-md: 0 10px 28px rgba(28, 26, 22, 0.09);
+  --shadow-lg: 0 28px 70px rgba(28, 26, 22, 0.15);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme="dark"] {
+  --paper: #131109;
+  --paper-2: #1b1811;
+  --card: #211d14;
+  --ink: #f2eee3;
+  --ink-soft: #b7ae9c;
+  --ink-faint: #7f7767;
+  --line: #322c1f;
+  --line-soft: #272219;
+
+  --accent: #e0682f;
+  --accent-deep: #c2410c;
+  --accent-wash: #3a2312;
+
+  --status-pending: #e5a54b;
+  --status-pending-wash: #3a2a12;
+  --status-processing: #4fc4b8;
+  --status-processing-wash: #123331;
+  --status-shipped: #6fce8f;
+  --status-shipped-wash: #14301f;
+
+  --danger: #e06a63;
+  --danger-wash: #3a1715;
+
+  --ring: rgba(242, 238, 227, 0.14);
+
+  --img-well: #efede6;       /* keep photography on a light mat */
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 28px 70px rgba(0, 0, 0, 0.55);
 }
 
 * { box-sizing: border-box; }
@@ -53,11 +92,13 @@ body {
   font-size: 15px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
 }
 
 ::selection { background: var(--accent-wash); }
 
 a { color: inherit; }
+img { display: block; max-width: 100%; }
 
 /* ---------- type ---------- */
 
@@ -94,15 +135,15 @@ a { color: inherit; }
 .btn {
   appearance: none;
   border: 1px solid transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   font: 600 14px/1 var(--font-body);
-  padding: 11px 18px;
+  padding: 12px 20px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   transition: transform 0.12s var(--ease), box-shadow 0.12s var(--ease),
-              background 0.12s, border-color 0.12s;
+              background 0.12s, border-color 0.12s, color 0.12s;
   white-space: nowrap;
 }
 .btn:active { transform: translateY(1px); }
@@ -110,9 +151,9 @@ a { color: inherit; }
 
 .btn-primary {
   background: var(--ink);
-  color: #fff;
+  color: var(--paper);
 }
-.btn-primary:hover:not(:disabled) { background: #000; box-shadow: var(--shadow-sm); }
+.btn-primary:hover:not(:disabled) { box-shadow: var(--shadow-sm); filter: brightness(1.12); }
 
 .btn-accent {
   background: var(--accent);
@@ -134,7 +175,7 @@ a { color: inherit; }
 }
 .btn-danger-ghost:hover { border-color: var(--danger); background: var(--danger-wash); }
 
-.btn-sm { padding: 8px 13px; font-size: 13px; }
+.btn-sm { padding: 9px 15px; font-size: 13px; }
 .btn-block { width: 100%; justify-content: center; }
 
 /* ---------- inputs ---------- */
@@ -153,14 +194,14 @@ a { color: inherit; }
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  padding: 10px 12px;
+  padding: 11px 14px;
   width: 100%;
-  transition: border-color 0.12s, box-shadow 0.12s;
+  transition: border-color 0.12s, box-shadow 0.12s, background 0.25s, color 0.25s;
 }
 .input:focus, .select:focus, textarea.input:focus {
   outline: none;
   border-color: var(--ink-soft);
-  box-shadow: 0 0 0 3px rgba(28, 27, 23, 0.08);
+  box-shadow: 0 0 0 3px var(--ring);
 }
 .input::placeholder { color: var(--ink-faint); }
 textarea.input { font-family: var(--font-mono); font-size: 13px; resize: vertical; }
@@ -172,6 +213,7 @@ textarea.input { font-family: var(--font-mono); font-size: 13px; resize: vertica
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
+  transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
 }
 
 .table { width: 100%; border-collapse: collapse; font-size: 14px; }

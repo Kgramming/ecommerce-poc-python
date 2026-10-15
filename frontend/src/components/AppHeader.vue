@@ -14,7 +14,15 @@
         <span class="acting-as faint" title="Demo user for placing orders">
           {{ userLabel }}
         </span>
-        <button class="bag-btn" @click="$emit('open-cart')" aria-label="Open bag">
+        <button class="icon-btn" @click="toggleTheme" :aria-label="theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'" :title="theme === 'light' ? 'Dark mode' : 'Light mode'">
+          <svg v-if="theme === 'light'" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+          </svg>
+          <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3L19 19M19 5l-1.7 1.7M6.7 17.3L5 19"/>
+          </svg>
+        </button>
+        <button class="icon-btn bag-btn" @click="$emit('open-cart')" aria-label="Open bag">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M6 8h15l-1.5 9h-12z"/><path d="M6 8l-1-4H2"/><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/>
           </svg>
@@ -28,9 +36,11 @@
 <script setup>
 import { computed } from 'vue'
 import { useCart } from '../stores/cart.js'
+import { useTheme } from '../composables/useTheme.js'
 
 defineEmits(['open-cart'])
 const { count } = useCart()
+const { theme, toggle: toggleTheme } = useTheme()
 /* Fixed demo user for order placement (matches seed user #2). */
 const userLabel = computed(() => 'Signed in as Jane Smith')
 </script>
@@ -40,7 +50,7 @@ const userLabel = computed(() => 'Signed in as Jane Smith')
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(250, 249, 246, 0.92);
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -69,10 +79,10 @@ const userLabel = computed(() => 'Signed in as Jane Smith')
   border-radius: 999px;
 }
 .nav-link:hover { background: var(--paper-2); color: var(--ink); }
-.nav-link.active { background: var(--ink); color: #fff; }
-.head-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
-.acting-as { font-size: 12.5px; }
-.bag-btn {
+.nav-link.active { background: var(--ink); color: var(--paper); }
+.head-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.acting-as { font-size: 12.5px; margin-right: 6px; }
+.icon-btn {
   position: relative;
   border: 1px solid var(--line);
   background: var(--card);
@@ -80,9 +90,10 @@ const userLabel = computed(() => 'Signed in as Jane Smith')
   width: 40px; height: 40px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; color: var(--ink);
-  transition: border-color 0.12s;
+  transition: border-color 0.12s, transform 0.12s var(--ease);
 }
-.bag-btn:hover { border-color: var(--ink-soft); }
+.icon-btn:hover { border-color: var(--ink-soft); }
+.icon-btn:active { transform: scale(0.94); }
 .bag-count {
   position: absolute;
   top: -6px; right: -6px;

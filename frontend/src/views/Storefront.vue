@@ -126,8 +126,8 @@ watch(category, fetchProducts)
 </script>
 
 <style scoped>
-.hero { padding: 52px 0 28px; max-width: 640px; }
-.hero h1 { font-size: 44px; margin: 10px 0 12px; }
+.hero { padding: 44px 0 24px; max-width: 660px; }
+.hero h1 { font-size: 46px; margin: 10px 0 12px; letter-spacing: -0.02em; }
 .hero-sub { font-size: 16px; margin: 0; }
 
 .toolbar {
@@ -163,7 +163,7 @@ watch(category, fetchProducts)
   transition: all 0.12s;
 }
 .cat-pill:hover { border-color: var(--ink-soft); color: var(--ink); }
-.cat-pill.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.cat-pill.active { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 
 .result-meta { font-size: 13px; margin: 14px 0; }
 

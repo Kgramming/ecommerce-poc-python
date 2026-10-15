@@ -34,7 +34,7 @@ import { toast } from '../stores/toast.js'
   align-items: center;
   gap: 10px;
   background: var(--ink);
-  color: #fff;
+  color: var(--paper);
   font-size: 13.5px;
   font-weight: 500;
   padding: 12px 18px;

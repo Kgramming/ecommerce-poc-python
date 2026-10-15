@@ -1,58 +1,106 @@
 <template>
   <div class="card product fade-in">
-    <div class="product-top">
-      <span class="pill pill-neutral product-cat">{{ product.category }}</span>
-      <span v-if="!product.active" class="pill pill-neutral">Inactive</span>
+    <div class="product-img">
+      <img
+        v-if="imgOk"
+        :src="imgSrc"
+        :alt="product.title"
+        loading="lazy"
+        @error="imgOk = false"
+      />
+      <div v-else class="img-fallback display" aria-hidden="true">
+        {{ initials }}
+      </div>
+      <span class="img-cat">{{ product.category }}</span>
+      <span v-if="!product.active" class="img-inactive">Inactive</span>
     </div>
-    <h3 class="display product-title">{{ product.title }}</h3>
-    <div class="product-tags">
-      <span v-for="t in (product.tags || []).slice(0, 3)" :key="t" class="tag">{{ t }}</span>
-    </div>
-    <div class="product-foot">
-      <span class="num product-price">{{ formatMoney(product.price) }}</span>
-      <button
-        v-if="product.active"
-        class="btn btn-primary btn-sm"
-        @click="$emit('add', product)"
-      >Add to bag</button>
+    <div class="product-body">
+      <h3 class="display product-title">{{ product.title }}</h3>
+      <div class="product-foot">
+        <span class="num product-price">{{ formatMoney(product.price) }}</span>
+        <button
+          v-if="product.active"
+          class="btn btn-primary btn-sm"
+          @click="$emit('add', product)"
+        >Add to bag</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { computed, ref } from 'vue'
 import { formatMoney } from '../api/client.js'
-defineProps({ product: { type: Object, required: true } })
+
+const props = defineProps({ product: { type: Object, required: true } })
 defineEmits(['add'])
+
+const imgOk = ref(true)
+const imgSrc = computed(() =>
+  `/images/products/${String(props.product.sku || '').toLowerCase()}.jpg`)
+const initials = computed(() =>
+  props.product.title.split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase())
 </script>
 
 <style scoped>
 .product {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  gap: 0;
+  overflow: hidden;
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
 }
 .product:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
-.product-top { display: flex; gap: 8px; align-items: center; }
-.product-cat { text-transform: none; letter-spacing: 0.02em; }
-.product-title { margin: 0; font-size: 19px; flex: 1; }
-.product-tags { display: flex; gap: 6px; flex-wrap: wrap; min-height: 22px; }
-.tag {
-  font-size: 11.5px;
-  color: var(--ink-soft);
-  background: var(--paper-2);
-  border-radius: 999px;
-  padding: 3px 9px;
+.product-img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: calc(var(--radius) - 10px);
+  overflow: hidden;
+  background: var(--img-well);
 }
+.product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease);
+}
+.product:hover .product-img img { transform: scale(1.04); }
+.img-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44px; color: var(--ink-faint);
+}
+.img-cat, .img-inactive {
+  position: absolute;
+  top: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+.img-cat {
+  left: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #1c1a16;
+}
+.img-inactive {
+  right: 10px;
+  background: rgba(28, 26, 22, 0.75);
+  color: #fff;
+}
+.product-body { padding: 14px 8px 8px; display: flex; flex-direction: column; gap: 10px; }
+.product-title { margin: 0; font-size: 18px; }
 .product-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 4px;
 }
-.product-price { font-size: 17px; font-weight: 500; }
+.product-price { font-size: 17px; font-weight: 600; }
 </style>
