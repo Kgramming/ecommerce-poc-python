@@ -71,6 +71,7 @@ async def search_orders(es, index: str, req: SearchRequest) -> dict:
         "status": h["_source"]["status"],
         "total_amount": h["_source"]["total_amount"],
         "customer": h["_source"]["customer"],
+        "items": h["_source"]["items"],
     } for h in resp["hits"]["hits"]]
     buckets = resp["aggregations"]["by_status"]["buckets"]
     revenue = resp["aggregations"]["revenue"]["value"] or 0.0

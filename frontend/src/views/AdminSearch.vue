@@ -110,7 +110,7 @@
                   <div class="cust-name">{{ o.customer.name }}</div>
                   <div class="faint cust-mail">{{ o.customer.email }}</div>
                 </td>
-                <td class="num">{{ o.items.length }}</td>
+                <td class="num">{{ (o.items || []).length }}</td>
                 <td class="num" style="text-align:right">{{ formatMoney(o.total_amount) }}</td>
                 <td><StatusPill :status="o.status" /></td>
               </tr>
