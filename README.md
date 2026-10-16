@@ -40,3 +40,18 @@ python tools/acceptance.py --base http://localhost:8000
 3. Search API (Elasticsearch only)
 4. Vue frontend — all 5 screens, expert-grade UI
 5. README + NOTES.md (learning milestones) → demo → Sir's understanding test
+
+## 📚 Knowledge Bytes
+
+Understand how this backend works internally through guided, code-specific
+Knowledge Bytes written in ASD-STE100 Simplified Technical English — each byte
+names the real source files and functions, shows actual snippets, and explains
+what the code does, why it exists, and how it connects to the rest of the
+project.
+
+Read them in order — start with `01_Three_Databases.md`:
+
+**[Explore the Knowledge Bytes →](knowledge-bytes/)**
+
+The prompt that generates bytes in this format lives in
+[`knowledge-bytes/knowledge-bytes-prompt.md`](knowledge-bytes/knowledge-bytes-prompt.md).
