@@ -6,7 +6,7 @@ The API surface is frozen in CONTRACT.md and must stay identical across ports.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import orders, products, search
+from app.api import knowledge_bytes, orders, products, search
 from app.core.db import lifespan
 from app.core.settings import settings
 
@@ -28,6 +28,7 @@ def create_app() -> FastAPI:
     app.include_router(products.router, prefix="/api")
     app.include_router(orders.router, prefix="/api")
     app.include_router(search.router, prefix="/api")
+    app.include_router(knowledge_bytes.router, prefix="/api")
     return app
 
 
